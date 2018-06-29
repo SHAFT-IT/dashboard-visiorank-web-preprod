@@ -152,7 +152,16 @@
                 <tr>
                     <td style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;">
                         <h1 style="margin: 0 0 10px; font-size: 25px; line-height: 30px; color: #333333; font-weight: normal;">
-                            Le status de votre demande <strong>{{$oTicket->titre}}</strong> est <strong>@if ($oHistorique->historique_statut == 1) Ouvert @elseif ($oHistorique->historique_statut == 2) En cours @else Terminé @endif</strong>
+                            Le status de votre demande <strong>{{$oTicket->titre}}</strong> est
+                            <strong>
+                                @if ($oHistorique->historique_statut == \Config::get('constants.status.STATUT_BROUILLON_KEY')) {{\Config::get('constants.status.STATUT_BROUILLON_LABEL')}}
+                                @elseif ($oHistorique->historique_statut == \Config::get('constants.status.STATUT_PRISE_EN_CHARGE_KEY')) {{\Config::get('constants.status.STATUT_PRISE_EN_CHARGE_LABEL')}}
+                                @elseif ($oHistorique->historique_statut == \Config::get('constants.status.STATUT_REFUSE_KEY')) {{\Config::get('constants.status.STATUT_REFUSE_LABEL')}}
+                                @elseif ($oHistorique->historique_statut == \Config::get('constants.status.STATUT_LIVRE_KEY')) {{\Config::get('constants.status.STATUT_LIVRE_LABEL')}}
+                                @elseif ($oHistorique->historique_statut == \Config::get('constants.status.STATUT_VALIDE_KEY')) {{\Config::get('constants.status.STATUT_VALIDE_LABEL')}}
+                                @else {{\Config::get('constants.status.STATUT_CLOS_LABEL')}}
+                                @endif
+                            </strong>
                         </h1>
                         <p style="margin: 0 0 10px;">&nbsp;</p>
                         <ul style="padding: 0; margin: 0; list-style-type: disc;">
