@@ -1,0 +1,58 @@
+{
+	"id": "74be92ca-3360-0f7f-b87c-647a27c2de15",
+	"name": "DASHBOARD VISIORANK",
+	"description": "DASHBOARD VISIORANK",
+	"order": [
+		"84e31dc3-f2fb-c654-c15e-a63af3250f21",
+		"e7370e84-9302-82e1-f476-b6e99f502d8d"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1529406597978,
+	"owner": "1124475",
+	"public": false,
+	"requests": [
+		{
+			"id": "84e31dc3-f2fb-c654-c15e-a63af3250f21",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost/visiorank-dashboard/public/api/get_all_user",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1529406784639,
+			"name": "get_all_user",
+			"description": "Find All user\r\n@url {BASE_URL}/public/api/get_all_user\r\n@param Request $request\r\n@return mixed",
+			"collectionId": "74be92ca-3360-0f7f-b87c-647a27c2de15",
+			"responses": []
+		},
+		{
+			"id": "e7370e84-9302-82e1-f476-b6e99f502d8d",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost/visiorank-dashboard/public/api/get_user_by_id/1",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1529406960989,
+			"name": "get_user_by_id/{id}",
+			"description": "Find user by id\r\n@url {BASE_URL}/public/api/get_user_by_id/{id}\r\n@param Request $request\r\n@param $id\r\n@return mixed",
+			"collectionId": "74be92ca-3360-0f7f-b87c-647a27c2de15",
+			"responses": []
+		}
+	]
+}

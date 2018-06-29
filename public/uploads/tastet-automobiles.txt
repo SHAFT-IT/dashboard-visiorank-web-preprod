@@ -1,0 +1,61 @@
+
+TASTET AUTOMOBILES
+
+www.tastet-automobiles.fr
+
+
+Wordpress-----------------------------------------
+Identifiant : EddyT4st3T
+Password    : $3dDytas3t$
+
+
+Numéro ---------------------------------
+0
+
+
+reCAPTCHA-----------------------------------------
+clé du site : 6LfW30oUAAAAANVFc9sLJ0HM11Vu_eUrEqzNZ666
+clé secrète : 6LfgD00UAAAAALWRnTSBCT8qvT-rJiSB83B6AsbC
+
+
+Google Maps---------------------------------------
+<div class="GGmap"></div>
+
+
+
+FOOTER TRACKING CODE--------------------------------------------------
+https://analytics.google.com/analytics/web/
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120815220-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-120815220-1');
+</script>
+
+
+
+
+FTP------------------------------------------------
+Serveur FTP : ftp.cluster021.hosting.ovh.net
+Identifiant : tastetaura
+Password    : 6NPcDpXBcBDX
+
+
+MySQL-----------------------------------------------
+Serveur        : tastetauram36e1.mysql.db
+Utilisateur    : tastetauram36e1
+Nom de la base : tastetauram36e1
+Mot de passe   : Wat7eA67
+
+
+Adresse Email---------------------------------------
+contact@tastet-automobiles.fr
+tAgOi85ug2
+
+
+Email Perso------------------------------------------
+contact.tastetautomobile@gmail.com
+t4St3t802b22aca3

@@ -1,0 +1,26 @@
+[row]
+<h3>Nous pouvons vous fournir et vous livrer les fournitures suivantes :</h3>
+[col width="six"]
+<ul>
+        <li>Enrobe´s</li>
+ 	<li>Mate´riaux</li>
+ 	<li>Granulats</li>
+ 	<li>Galets</li>
+ 	<li>Gravier</li>
+ 	<li>Sable</li>
+ 	<li>Enrochement</li>
+</ul>
+[/col]
+[col width="six"]
+<ul>
+
+ 	<li>Cailloux</li>
+ 	<li>Pierres naturelles</li>
+ 	<li>Terre ve´ge´tale</li>
+ 	<li>Compost</li>
+ 	<li>Pouzzolanes</li>
+ 	<li>Ecorces</li>
+ 	<li>Sel de de´neigement ...</li>
+</ul>
+[/col]
+[/row]
