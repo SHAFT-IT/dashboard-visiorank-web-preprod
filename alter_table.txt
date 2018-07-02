@@ -1,0 +1,2 @@
+ALTER TABLE `users` ADD `mobile_token` VARCHAR(255) NOT NULL AFTER `remember_token`;
+ALTER TABLE `users` CHANGE `mobile_token` `mobile_token` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;

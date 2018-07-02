@@ -47,11 +47,11 @@ Route::post('/save_historique_comment', 'ServiceDeskController@save_historique_c
 Route::get('/delete_pj_ticket/{idpj}/{id}', 'ServiceDeskController@delete_pj_ticket');
 Route::get('/download_pj_ticket/{file}', 'ServiceDeskController@download_pj_ticket');
 
-// Mail
-Route::get('send_mail_test', 'ServiceDeskController@sendMailTest');
-
 // WS
 app(Router::class)->version('v1', [], function (Router $api) {
-    app(Router::class)->get('get_all_user', 'App\Http\Controllers\Api\V1\UserController@get_all_user');
-    app(Router::class)->get('get_user_by_id/{id}', 'App\Http\Controllers\Api\V1\UserController@get_user_by_id');
+    app(Router::class)->get('ws_get_all_user', 'App\Http\Controllers\Api\V1\UserController@get_all_user');
+    app(Router::class)->get('ws_get_user_by_id/{id}', 'App\Http\Controllers\Api\V1\UserController@get_user_by_id');
+    app(Router::class)->post('ws_login', 'App\Http\Controllers\Api\V1\AuthenticateController@ws_login');
+    app(Router::class)->post('ws_logout', 'App\Http\Controllers\Api\V1\AuthenticateController@ws_logout');
+    app(Router::class)->post('ws_get_connected_user', 'App\Http\Controllers\Api\V1\AuthenticateController@ws_get_connected_user');
 });
