@@ -206,8 +206,6 @@ class DashboardController extends Controller {
 
             setlocale(LC_ALL, 'fr_FR');
 
-            print_r(session());die;
-
             return view('dashboard.index')->with(array(
 
                 'visits' => session()->get('visits', 0),
