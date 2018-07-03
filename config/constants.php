@@ -23,7 +23,14 @@ return [
         'STATUT_LIVRE_LABEL' => "Livré",
         'STATUT_VALIDE_LABEL' => "Validé",
         'STATUT_CLOS_LABEL' => "Cloturé"
+    ],
+    'ws' => [
+        'ga_client_id' => '766771941565-i8us8l9u82du4604d57cqiesqumsf04t.apps.googleusercontent.com',
+        'ga_client_mail' => '766771941565-i8us8l9u82du4604d57cqiesqumsf04t@developer.gserviceaccount.com',
+        'imap_ssl_ovh' => '{SSL0.OVH.NET:143/imap}'
+       
     ]
+
 ];
 
 ?>

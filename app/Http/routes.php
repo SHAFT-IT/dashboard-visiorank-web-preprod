@@ -54,4 +54,8 @@ app(Router::class)->version('v1', [], function (Router $api) {
     app(Router::class)->post('ws_login', 'App\Http\Controllers\Api\V1\AuthenticateController@ws_login');
     app(Router::class)->post('ws_logout', 'App\Http\Controllers\Api\V1\AuthenticateController@ws_logout');
     app(Router::class)->post('ws_get_connected_user', 'App\Http\Controllers\Api\V1\AuthenticateController@ws_get_connected_user');
+    app(Router::class)->get('ws_get_data_dashboard/{token}', 'App\Http\Controllers\Api\V1\DashboardController@ws_get_data_dashboard');
+    app(Router::class)->get('ws_get_stats/{token}', 'App\Http\Controllers\Api\V1\StatsController@ws_get_stats');
+    app(Router::class)->get('ws_get_calls/{token}', 'App\Http\Controllers\Api\V1\CallsController@ws_get_calls');
+    app(Router::class)->get('ws_get_messages/{token}', 'App\Http\Controllers\Api\V1\MessagesController@ws_get_messages');
 });
