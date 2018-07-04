@@ -18,8 +18,8 @@ class DashboardController extends Controller {
     use Helpers;
 
     /**
-     * params: token
-     * return: Json Array
+     * @param $token
+     * @return mixed
      * url {BASE_URL}/api/ws_get_data_dashboard/{token}
      */
     public function ws_get_data_dashboard($token) { 
