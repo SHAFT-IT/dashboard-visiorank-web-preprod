@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\User;
-use Dingo\Api\Contract\Http\Request;
-use Dingo\Api\Http\Response;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
-use App\Extra\GoogleAnalyticsAPI;
-use App\Extra\ImapAPI;
 use App\Extra\WannaSpeakAPI;
-use App\Http\Controllers\ServiceDeskController;
 use Auth;
 use App\Appel;
 
@@ -38,6 +32,7 @@ class CallsController extends Controller {
                     $calls[] = $call;
                 }
             }
+
             foreach ($calls as $key => $call) {
                 $id = md5($call['starttime'] . $call['inbound']);
                 $appel = Appel::find($id);
@@ -48,6 +43,9 @@ class CallsController extends Controller {
                     $appel->save();
                 }
                 $calls[$key]['pertinant'] = $appel->pertinant;
+                $t = round($call['duration']);
+                $calls[$key]['duration'] = sprintf('%02d:%02d:%02d', ($t/3600),($t/60%60), $t%60);
+                $calls[$key]['source'] = preg_replace('/^33/', '0', $call['source'], 1);
                 $calls[$key]['id'] = $id;
             }
             array_multisort($calls, SORT_DESC);
