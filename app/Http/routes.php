@@ -49,8 +49,6 @@ Route::get('/download_pj_ticket/{file}', 'ServiceDeskController@download_pj_tick
 
 // WS
 app(Router::class)->version('v1', [], function (Router $api) {
-    app(Router::class)->get('ws_get_all_user', 'App\Http\Controllers\Api\V1\UserController@get_all_user');
-    app(Router::class)->get('ws_get_user_by_id/{id}', 'App\Http\Controllers\Api\V1\UserController@get_user_by_id');
     app(Router::class)->post('ws_login', 'App\Http\Controllers\Api\V1\AuthenticateController@ws_login');
     app(Router::class)->post('ws_logout', 'App\Http\Controllers\Api\V1\AuthenticateController@ws_logout');
     app(Router::class)->post('ws_get_connected_user', 'App\Http\Controllers\Api\V1\AuthenticateController@ws_get_connected_user');
@@ -60,5 +58,6 @@ app(Router::class)->version('v1', [], function (Router $api) {
     app(Router::class)->get('ws_get_messages/{token}', 'App\Http\Controllers\Api\V1\MessagesController@ws_get_messages');
     app(Router::class)->post('ws_update_call/{token}', 'App\Http\Controllers\Api\V1\CallsController@ws_update_call');
     app(Router::class)->post('ws_details_message/{token}', 'App\Http\Controllers\Api\V1\MessagesController@ws_details_message');
+    app(Router::class)->get('ws_get_users/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_get_users');
 
 });
