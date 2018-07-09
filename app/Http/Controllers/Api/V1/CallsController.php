@@ -7,6 +7,8 @@ use Illuminate\Routing\Controller;
 use App\Extra\WannaSpeakAPI;
 use Auth;
 use App\Appel;
+use App\User;
+use Dingo\Api\Contract\Http\Request;
 
 ini_set('max_execution_time', -1);
 
@@ -18,7 +20,7 @@ class CallsController extends Controller {
      * return: Json Array
      * url {BASE_URL}/api/ws_get_calls/{token}
      */
-    public function ws_get_calls($token) { 
+    public function ws_get_calls($token) {
         $user = session()->get("user_mobile");
         if (is_null($user)) {
             return $this->response->array ("1002"); // No session
@@ -51,5 +53,20 @@ class CallsController extends Controller {
             array_multisort($calls, SORT_DESC);
         }
         return $this->response->array ($calls);
+    }
+
+
+    public function ws_update_call($token, Request $request) {
+        $user = User::where('mobile_token', $token)->first();
+        if (is_null($user))
+            return $this->response->array ("1002");
+        $id = $request->id;
+        $appel = Appel::find($id);
+        if($appel){
+            $appel->pertinant = !$appel->pertinant;
+            $appel->save();
+            return $this->response->array("true");
+        }
+        return $this->response->array("false");
     }
 }
