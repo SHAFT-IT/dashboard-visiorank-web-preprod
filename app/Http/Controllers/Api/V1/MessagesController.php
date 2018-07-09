@@ -27,7 +27,8 @@ class MessagesController extends Controller {
         if($user) {
             if($user->email != "" && $user->imap != ""){
                 $messages = ImapAPI::getMessages("{SSL0.OVH.NET:143/imap}", $user->email, $user->imap);
-                usort($messages,'sort_by_timestamp');
+                //usort($messages,'sort_by_timestamp');
+                $messages = array_reverse($messages);
             }
         }
         return $this->response->array ($messages);
