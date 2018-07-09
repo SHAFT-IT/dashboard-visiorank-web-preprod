@@ -59,5 +59,5 @@ app(Router::class)->version('v1', [], function (Router $api) {
     app(Router::class)->post('ws_update_call/{token}', 'App\Http\Controllers\Api\V1\CallsController@ws_update_call');
     app(Router::class)->post('ws_details_message/{token}', 'App\Http\Controllers\Api\V1\MessagesController@ws_details_message');
     app(Router::class)->get('ws_get_users/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_get_users');
-
+    app(Router::class)->get('ws_get_sites/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_get_sites');
 });
