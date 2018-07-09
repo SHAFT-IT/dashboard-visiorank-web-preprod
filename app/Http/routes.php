@@ -59,4 +59,6 @@ app(Router::class)->version('v1', [], function (Router $api) {
     app(Router::class)->get('ws_get_calls/{token}', 'App\Http\Controllers\Api\V1\CallsController@ws_get_calls');
     app(Router::class)->get('ws_get_messages/{token}', 'App\Http\Controllers\Api\V1\MessagesController@ws_get_messages');
     app(Router::class)->post('ws_update_call/{token}', 'App\Http\Controllers\Api\V1\CallsController@ws_update_call');
+    app(Router::class)->post('ws_details_message/{token}', 'App\Http\Controllers\Api\V1\MessagesController@ws_details_message');
+
 });
