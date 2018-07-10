@@ -57,15 +57,14 @@ class UsersController extends Controller
         // Set the accessToken and Account-Id
         $ga->setAccessToken($accessToken);
         $results = $ga->getProfiles();
+        $sites = array();
         if(isset($results['items'])){
-            $tProfiles = array();
-            $profiles = array();
             foreach($results['items'] as $profile){
-                $profiles[$profile['id']] = $profile['websiteUrl'];
+                $site['id'] =  $profile['id'];
+                $site['websiteUrl'] = $profile['websiteUrl'];
+                array_push($sites, $site);
             }
-            array_push($tProfiles, $profiles);
         }
-
-        return $this->response->array($tProfiles);
+        return $this->response->array($sites);
     }
 }
