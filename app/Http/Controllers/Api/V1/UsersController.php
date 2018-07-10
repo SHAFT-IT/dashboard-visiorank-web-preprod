@@ -76,22 +76,14 @@ class UsersController extends Controller
         }
         if(!is_null($request->id) && $request->id > 0) { // Update
             $user =  User::where('id', $request->id)->first();
-            if ($request->nom != "")
-                $user->nom =  $request->nom;
-            if ($request->prenom != "")
-                $user->prenom =  $request->prenom;
-            if ($request->societe != "")
-                $user->societe =  $request->societe;
-            if ($request->telephone != "")
-                $user->telephone =  $request->telephone;
-            if ($request->analytics != "")
-                $user->analytics =  $request->analytics;
-            if ($request->email != "")
-                $user->email =  $request->email;
-            if ($request->imap != "")
-                $user->imap =  $request->imap;
-            if ($request->password != "")
-                $user->password =  bcrypt($request->password);
+            if ($request->nom != "") $user->nom =  $request->nom;
+            if ($request->prenom != "") $user->prenom =  $request->prenom;
+            if ($request->societe != "") $user->societe =  $request->societe;
+            if ($request->telephone != "") $user->telephone =  $request->telephone;
+            if ($request->analytics != "") $user->analytics =  $request->analytics;
+            if ($request->email != "") $user->email =  $request->email;
+            if ($request->imap != "") $user->imap =  $request->imap;
+            if ($request->password != "") $user->password =  bcrypt($request->password);
         } else { // Add
             $user = new User;
             $user->nom =  $request->nom;
@@ -104,11 +96,20 @@ class UsersController extends Controller
             $user->type = 0;
             $user->password = bcrypt($request->password);
         }
-
         if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             return $this->response->array("Veuillez vérifier votre adresse email.");
         }
-
         return $this->response->array($user->save() == 1 ? "true" : "false");
+    }
+
+    public function ws_delete_user($token, Request $request)
+    {
+        $user = User::where('mobile_token', $token)->first();
+        if (is_null($user)) {
+            return $this->response->array("1002");
+        }
+        $user =   $user = User::find($request->id);
+        return $this->response->array($user->delete() == 1 ? "true" : "false");
+
     }
 }
