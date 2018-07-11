@@ -62,4 +62,13 @@ app(Router::class)->version('v1', [], function (Router $api) {
     app(Router::class)->get('ws_get_sites/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_get_sites');
     app(Router::class)->post('ws_save_user/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_save_user');
     app(Router::class)->post('ws_delete_user/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_delete_user');
+
+    /*
+     * Demandes route
+     */
+    app(Router::class)->get('ws_demandes/{token}', 'App\Http\Controllers\Api\V1\DemandesController@index');
+    app(Router::class)->get('ws_status_list', 'App\Http\Controllers\Api\V1\DemandesController@getStatusList');
+    app(Router::class)->get('ws_types_list', 'App\Http\Controllers\Api\V1\DemandesController@getTypeList');
+    app(Router::class)->get('ws_priorities_list', 'App\Http\Controllers\Api\V1\DemandesController@getPriorityList');
+    app(Router::class)->get('ws_demandes/{token}/{ticketId}', 'App\Http\Controllers\Api\V1\DemandesController@getById');
 });
