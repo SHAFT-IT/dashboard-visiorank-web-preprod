@@ -37,7 +37,7 @@ class DemandesController extends Controller
 
     public function queryItems()
     {
-        return Ticket::select('ticket_id', 'titre', 'description', 'date_creation', 'date_modification', 'statut_libelle as status', 'libelle as type', 'nom', 'prenom', 'priorite_libelle as priority', 'email')
+        return Ticket::select('user_id', 'historique_comment as comment', 'ticket_id', 'titre', 'description', 'date_creation', 'date_modification', 'statut_libelle as status', 'libelle as type', 'nom', 'prenom', 'priorite_libelle as priority', 'email')
             //Ticket::select('*')
             ->where('tickets.visibilite', '=', '1')
             ->join('users as created', 'created.id', '=', 'tickets.created_by')
@@ -123,9 +123,30 @@ class DemandesController extends Controller
             ServiceDeskMailerController::send_mail_historique($ticket, $historique);
     }
 
-    public function edit()
+    public function edit($token)
     {
+        if (!$token) {
+            return $this->response->array($this->getResponse(1001, 'Token invalide')); // Token invalid
+        }
 
+        $user = $this->getUserByToken($token);
+        if (!$user) {
+            return $this->response->array($this->getResponse(1002, 'Session vide'));
+        }
+
+        $ticket = Ticket::find(Request::input('ticketId'));
+
+        if ($ticket) {
+            $ticket->titre = Request::input('titre');
+            $ticket->description = Request::input('description');
+            $ticket->ticket_priorite_id = Request::input('priorityId');
+            $ticket->user_id = Request::input('userId');
+            $ticket->date_modification = new \DateTime();
+            $ticket->save();
+            return $this->response->array($this->getResponse(200, 'OK'));
+        }
+
+        return $this->response->array($this->getResponse(100, 'Unknown'));
     }
 
     public function remove($token)
@@ -142,8 +163,7 @@ class DemandesController extends Controller
             }
             return $this->response->array($this->getResponse(1002, 'Ticket not found'));
         }
-
-        return $this->response->array("1001"); // No session
+        return $this->response->array($this->getResponse(1002, 'Session vide')); // No session
     }
 
     private function getUserByToken($token)

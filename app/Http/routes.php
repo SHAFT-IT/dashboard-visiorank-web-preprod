@@ -68,6 +68,7 @@ app(Router::class)->version('v1', [], function (Router $api) {
      */
     app(Router::class)->get('ws_demandes/{token}', 'App\Http\Controllers\Api\V1\DemandesController@index');
     app(Router::class)->post('ws_demandes/{token}', 'App\Http\Controllers\Api\V1\DemandesController@updateStatus');
+    app(Router::class)->post('ws_demandes/edit/{token}', 'App\Http\Controllers\Api\V1\DemandesController@edit');
     app(Router::class)->get('ws_status_list', 'App\Http\Controllers\Api\V1\DemandesController@getStatusList');
     app(Router::class)->get('ws_types_list', 'App\Http\Controllers\Api\V1\DemandesController@getTypeList');
     app(Router::class)->get('ws_priorities_list', 'App\Http\Controllers\Api\V1\DemandesController@getPriorityList');
