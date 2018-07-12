@@ -37,7 +37,7 @@ class DemandesController extends Controller
 
     public function queryItems()
     {
-        return Ticket::select('user_id', 'historique_comment as comment', 'ticket_id', 'titre', 'description', 'date_creation', 'date_modification', 'statut_libelle as status', 'libelle as type', 'nom', 'prenom', 'priorite_libelle as priority', 'email')
+        return Ticket::select('type_id', 'statut_id', 'priorite_id', 'user_id', 'historique_comment as comment', 'ticket_id', 'titre', 'description', 'date_creation', 'date_modification', 'statut_libelle as status', 'libelle as type', 'nom', 'prenom', 'priorite_libelle as priority', 'email')
             //Ticket::select('*')
             ->where('tickets.visibilite', '=', '1')
             ->join('users as created', 'created.id', '=', 'tickets.created_by')
