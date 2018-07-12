@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\HistoriqueTicket;
+use App\Http\Controllers\ApiHelpersTrait;
+use App\Ticket;
 use App\User;
+use Auth;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
-use \Illuminate\Support\Facades\DB;
-
-use Auth;
+use Illuminate\Support\Facades\DB;
 use Request;
-use App\HistoriqueTicket;
-use App\Ticket;
 
 class DemandesController extends Controller
 {
-    use Helpers;
+    use Helpers, ApiHelpersTrait;
 
     /**
      * Get demandes by token
@@ -170,14 +170,6 @@ class DemandesController extends Controller
     private function getUserByToken($token)
     {
         return User::where('mobile_token', $token)->first();
-    }
-
-    private function getResponse($code, $message)
-    {
-        $response = new \stdClass();
-        $response->code = $code;
-        $response->message = $message;
-        return json_encode($response);
     }
 
 }
