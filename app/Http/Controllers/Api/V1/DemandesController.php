@@ -139,7 +139,9 @@ class DemandesController extends Controller
             if ($ticket) {
                 $ticket->visibilite = 0;
                 $ticket->save();
+                return $this->response->array($this->getResponse(200, 'success'));
             }
+            return $this->response->array($this->getResponse(1002, 'Ticket not found'));
         }
 
         return $this->response->array("1001"); // No session
