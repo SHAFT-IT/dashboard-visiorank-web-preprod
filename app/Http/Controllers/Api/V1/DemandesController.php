@@ -46,6 +46,7 @@ class DemandesController extends Controller
             ->join('statut_ticket', 'statut_ticket.statut_id', '=', 'tickets.ticket_last_status')
             ->leftjoin('historique_tickets', 'historique_tickets.historique_ticket', '=', 'tickets.ticket_id')
             ->groupBy('tickets.ticket_id')
+            ->orderBy('date_modification', 'desc')
             ->orderBy('date_creation', 'desc');
     }
 
