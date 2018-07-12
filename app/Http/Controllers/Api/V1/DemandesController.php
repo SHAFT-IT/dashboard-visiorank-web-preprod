@@ -39,14 +39,14 @@ class DemandesController extends Controller
     {
         return Ticket::select('ticket_id', 'titre', 'description', 'date_creation', 'date_modification', 'statut_libelle as status', 'libelle as type', 'nom', 'prenom', 'priorite_libelle as priority', 'email')
             //Ticket::select('*')
-                ->where('tickets.visibilite', '=', '1')
-                ->join('users as created', 'created.id', '=', 'tickets.created_by')
-                ->join('type_tickets', 'type_tickets.type_id', '=', 'tickets.type')
-                ->join('priorite_ticket', 'priorite_ticket.priorite_id', '=', 'tickets.ticket_priorite_id')
-                ->join('statut_ticket', 'statut_ticket.statut_id', '=', 'tickets.ticket_last_status')
-                ->leftjoin('historique_tickets', 'historique_tickets.historique_ticket', '=', 'tickets.ticket_id')
-                ->groupBy('tickets.ticket_id')
-                ->orderBy('date_creation', 'desc');
+            ->where('tickets.visibilite', '=', '1')
+            ->join('users as created', 'created.id', '=', 'tickets.created_by')
+            ->join('type_tickets', 'type_tickets.type_id', '=', 'tickets.type')
+            ->join('priorite_ticket', 'priorite_ticket.priorite_id', '=', 'tickets.ticket_priorite_id')
+            ->join('statut_ticket', 'statut_ticket.statut_id', '=', 'tickets.ticket_last_status')
+            ->leftjoin('historique_tickets', 'historique_tickets.historique_ticket', '=', 'tickets.ticket_id')
+            ->groupBy('tickets.ticket_id')
+            ->orderBy('date_creation', 'desc');
     }
 
     public function getById($token, $ticketId)
@@ -132,8 +132,7 @@ class DemandesController extends Controller
     {
         $user = $this->getUserByToken($token);
         if ($user) {
-            $ticket = $this->queryItems()
-                ->where('ticket_id', Request::input('ticketId'))
+            $ticket = Ticket::where('ticket_id', Request::input('ticketId'))
                 ->where('user_id', $user->id)
                 ->first();
             if ($ticket) {
