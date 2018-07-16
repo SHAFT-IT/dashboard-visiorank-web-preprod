@@ -12,11 +12,12 @@ use Dingo\Api\Contract\Http\Request;
 use Dingo\Api\Http\Response;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
+use App\Http\Controllers\ApiHelpersTrait;
 
 use Auth;
 
 class AuthenticateController extends Controller {
-    use Helpers;
+    use Helpers,  ApiHelpersTrait;
 
     /**
      * @param Request $request
@@ -26,14 +27,14 @@ class AuthenticateController extends Controller {
         if (Auth::attempt(array('email' => $request->email, 'password' => $request->password))) {
             $user = User::where('email', $request->email )->first();
             if (is_null($user))
-                return $this->response->array ("1004"); // No User
+                return $this->response->array($this->getResponse(1004, 'No user'));
 
             $user->mobile_token = md5($request->email . time());
             session()->put('user_mobile', $user);
             $user->save();
             return $this->response->array ($user);
         }
-        return $this->response->array ("1001"); // Login mot de passe incorrect
+        return $this->response->array($this->getResponse(1001, 'Login ou mot de passe incorrect'));
     }
 
     /**
