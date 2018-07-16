@@ -18,4 +18,15 @@ trait ApiHelpersTrait
         $response->message = $message;
         return json_encode($response);
     }
+
+    private function getLoginResponse($code, $message = '', $user)
+    {
+        $response = new \stdClass();
+        $response->code = $code;
+        $response->message = $message;
+        $response->user = $user;
+        return json_encode($response);
+    }
+
+
 }

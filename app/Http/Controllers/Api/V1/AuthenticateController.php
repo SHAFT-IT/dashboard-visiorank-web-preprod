@@ -32,7 +32,7 @@ class AuthenticateController extends Controller {
             $user->mobile_token = md5($request->email . time());
             session()->put('user_mobile', $user);
             $user->save();
-            return $this->response->array ($user);
+            return $this->response->array ($this->getLoginResponse(200, "Success", $user));
         }
         return $this->response->array($this->getResponse(1001, 'Login ou mot de passe incorrect'));
     }
