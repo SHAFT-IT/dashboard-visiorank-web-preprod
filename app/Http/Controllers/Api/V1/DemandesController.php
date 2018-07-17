@@ -26,11 +26,13 @@ class DemandesController extends Controller
         if (!$token) {
             return $this->response->array($this->getResponse(1001, 'Token invalide')); // Token invalid
         }
-
         $user = $this->getUserByToken($token);
         if ($user) {
-            $tickets = $this->queryItems()->where('user_id', $user->id)->get();
-            return $this->response->array($tickets);
+            $query = $this->queryItems();
+            if ($user->type !== 1) {
+                $query = $query->where('user_id', $user->id);
+            }
+            return $this->response->array($query->get());
         }
         return $this->response->array($this->getResponse(1002, 'Session vide')); // No session
     }
