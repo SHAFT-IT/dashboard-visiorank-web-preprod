@@ -73,5 +73,6 @@ app(Router::class)->version('v1', [], function (Router $api) {
     app(Router::class)->get('ws_types_list', 'App\Http\Controllers\Api\V1\DemandesController@getTypeList');
     app(Router::class)->get('ws_priorities_list', 'App\Http\Controllers\Api\V1\DemandesController@getPriorityList');
     app(Router::class)->get('ws_demandes/{token}/{ticketId}', 'App\Http\Controllers\Api\V1\DemandesController@getById');
+    app(Router::class)->get('ws_find_demandes/{token}', 'App\Http\Controllers\Api\V1\DemandesController@filter');
     app(Router::class)->delete('ws_demandes/{token}', 'App\Http\Controllers\Api\V1\DemandesController@remove');
 });

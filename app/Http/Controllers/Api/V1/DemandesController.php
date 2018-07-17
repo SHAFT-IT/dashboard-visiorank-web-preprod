@@ -126,6 +126,52 @@ class DemandesController extends Controller
             ServiceDeskMailerController::send_mail_historique($ticket, $historique);
     }
 
+    public function filter($token)
+    {
+        if (!$token) {
+            return $this->response->array($this->getResponse(1001, 'Token invalide')); // Token invalid
+        }
+
+        $user = $this->getUserByToken($token);
+        if (!$user) {
+            return $this->response->array($this->getResponse(1002, 'Session vide'));
+        }
+
+        $query = $this->queryItems();
+
+        if ($user->type !== 1) {
+            $query = $query->where('user_id', $user->id);
+        }
+
+        // Date filter
+        if (Request::input('date1') != "" && Request::input('date2') != "") {
+            $date1 = $this->toDateSQL(Request::input('date1')) . " 00:00:00";
+            $date2 = $this->toDateSQL(Request::input('date2')) . " 23:59:59";
+            $query->whereBetween('date_creation', [$date1, $date2]);
+        }
+
+        // Titre filter
+        if (Request::input('titre') != "") {
+            $query->where('titre', 'like', '%' . Request::get('titre') . '%');
+        }
+
+        // Type filter
+        if (Request::input('type') > 0) {
+            $query->where('tickets.type', '=', Request::get('type'));
+        }
+
+        // Status filter
+        if (Request::input('statut') > 0) {
+            $query->where('ticket_last_status', '=', Request::input('statut'));
+        }
+
+        if (Request::input('priorite') > 0) {
+            $query->where('priorite_ticket.priorite_id', '=', Request::get('priorite'));
+        }
+
+        return $this->response->array($query->get());
+    }
+
     public function edit($token)
     {
         if (!$token) {
