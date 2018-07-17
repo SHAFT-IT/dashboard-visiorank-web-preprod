@@ -61,7 +61,7 @@ app(Router::class)->version('v1', [], function (Router $api) {
     app(Router::class)->get('ws_get_users/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_get_users');
     app(Router::class)->get('ws_get_sites/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_get_sites');
     app(Router::class)->post('ws_save_user/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_save_user');
-    app(Router::class)->post('ws_delete_user/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_delete_user');
+    app(Router::class)->delete('ws_delete_user/{token}', 'App\Http\Controllers\Api\V1\UsersController@ws_delete_user');
 
     /*
      * Demandes route

@@ -14,28 +14,30 @@ use Illuminate\Routing\Controller;
 use Auth;
 use App\Extra\GoogleAnalyticsAPI;
 use Dingo\Api\Contract\Http\Request;
+use App\Http\Controllers\ApiHelpersTrait;
 
 
 class UsersController extends Controller
 {
-    use Helpers;
+    use Helpers, ApiHelpersTrait;
+
     public function ws_get_users($token) {
         $user = User::where('mobile_token', $token)->first();
         if (is_null($user)) {
-            return $this->response->array ("1002");
+            return $this->response->array($this->getResponse(1002, 'Session vide'));
         }
 
         if ($user->type == 1) { // Administrator
             return $this->response->array(User::where('type', '=', 0)->get());
         } else { // Not granted
-            return $this->response->array("1005");
+            return $this->response->array($this->getResponse(1010, 'Not granted'));
         }
     }
 
     public function ws_get_sites($token) {
         $user = User::where('mobile_token', $token)->first();
         if (is_null($user)) {
-            return $this->response->array ("1002");
+            return $this->response->array($this->getResponse(1002, 'Session vide'));
         }
         $client_id = \Config::get('constants.ws.ga_client_id');
         $client_mail = \Config::get('constants.ws.ga_client_mail');
@@ -46,13 +48,13 @@ class UsersController extends Controller
         try {
             $auth = $ga->auth->getAccessToken();
         }catch (Exception $e){
-            return $this->response->array ($e->getMessage());
+            return   $this->response->array($this->getResponse(1015, $e->getMessage()));
         }
         // Try to get the AccessToken
         if ($auth['http_code'] == 200) {
             $accessToken = $auth['access_token'];
         } else {
-            return $this->response->array ("Sorry, something wend wrong retrieving the oAuth tokens : " . $auth['http_code']);
+            return $this->response->array($this->getResponse(1015, "Sorry, something wend wrong retrieving the oAuth tokens : " . $auth['http_code']));
         }
         // Set the accessToken and Account-Id
         $ga->setAccessToken($accessToken);
@@ -72,7 +74,7 @@ class UsersController extends Controller
     {
         $user = User::where('mobile_token', $token)->first();
         if (is_null($user)) {
-            return $this->response->array("1002");
+            return $this->response->array($this->getResponse(1002, 'Session vide'));
         }
         if(!is_null($request->id) && $request->id > 0) { // Update
             $user =  User::where('id', $request->id)->first();
@@ -97,19 +99,21 @@ class UsersController extends Controller
             $user->password = bcrypt($request->password);
         }
         if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
-            return $this->response->array("Veuillez vérifier votre adresse email.");
+            return  $this->response->array($this->getResponse(1055, "Veuillez vérifier votre adresse email."));
         }
-        return $this->response->array($user->save() == 1 ? "true" : "false");
+        return $this->response->array($user->save() == 1 ?
+             $this->getResponse(200, 'OK') : $this->getResponse(1011, 'KO'));
     }
 
     public function ws_delete_user($token, Request $request)
     {
         $user = User::where('mobile_token', $token)->first();
         if (is_null($user)) {
-            return $this->response->array("1002");
+            return $this->response->array($this->getResponse(1002, 'Session vide'));
         }
         $user =   $user = User::find($request->id);
-        return $this->response->array($user->delete() == 1 ? "true" : "false");
+        return $this->response->array($user->delete() == 1 ?
+            $this->getResponse(200, 'OK') : $this->getResponse(1011, 'KO'));
 
     }
 }
