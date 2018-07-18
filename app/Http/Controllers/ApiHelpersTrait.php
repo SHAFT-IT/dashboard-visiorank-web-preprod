@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Input;
 
 trait ApiHelpersTrait
 {
@@ -48,5 +50,19 @@ trait ApiHelpersTrait
             return $tD[2] . "/" . $tD[1] . "/" . $tD[0];
         }
         return "";
+    }
+
+    public function sendFiles(Request $request)
+    {
+        $paths = [];
+        $files = $request->file('uploads');
+        if (!empty($files)) {
+            foreach ($files as $file) {
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move('uploads', $filename); // uploading file to given path
+                $paths[] = $filename;
+            }
+        }
+        return $paths;
     }
 }

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\HistoriqueTicket;
 use App\Http\Controllers\ApiHelpersTrait;
+use App\PjTicket;
 use App\Ticket;
 use App\User;
 use Auth;
 use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request as FileRequest;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Request;
@@ -29,7 +31,7 @@ class DemandesController extends Controller
         $user = $this->getUserByToken($token);
         if ($user) {
             $query = $this->queryItems();
-            if ($user->type !== 1) {
+            if ((int)$user->type !== 1) {
                 $query = $query->where('user_id', $user->id);
             }
             return $this->response->array($query->get());
@@ -139,7 +141,7 @@ class DemandesController extends Controller
 
         $query = $this->queryItems();
 
-        if ($user->type !== 1) {
+        if ((int)$user->type !== 1) {
             $query = $query->where('user_id', $user->id);
         }
 
@@ -172,7 +174,7 @@ class DemandesController extends Controller
         return $this->response->array($query->get());
     }
 
-    public function edit($token)
+    public function edit(FileRequest $request, $token)
     {
         if (!$token) {
             return $this->response->array($this->getResponse(1001, 'Token invalide')); // Token invalid
@@ -192,13 +194,53 @@ class DemandesController extends Controller
             $ticket->user_id = Request::input('userId');
             $ticket->date_modification = new \DateTime();
             $ticket->save();
+
+            if ($paths = $this->sendFiles($request)) {
+                $this->saveAttachments($paths, $ticket->ticket_id);
+            }
+
             return $this->response->array($this->getResponse(200, 'OK'));
         }
 
         return $this->response->array($this->getResponse(100, 'Unknown'));
     }
 
-    public function post($token)
+    function getTicketAttachments($ticketId)
+    {
+        $toPjTicket = PjTicket::where('pj_visibilite', '=', 1)
+            ->where(
+                function ($query) use ($ticketId) {
+                    $query->where('pj_tickets.pj_ticket', '=', $ticketId);
+                }
+            )
+            ->join('tickets', 'tickets.ticket_id', '=', 'pj_tickets.pj_ticket')
+            ->orderBy('pj_date', 'desc')
+            ->get();
+
+        foreach ($toPjTicket as $oPjTicket) {
+            $oPjTicket->icon = 'fa-file-o';
+            if (isset($oPjTicket->pj_file) && $oPjTicket->pj_file != "") {
+                $oPjTicket->icon = $this->getIconByFileMimeType(mime_content_type(public_path() . "/uploads/" . $oPjTicket->pj_file));
+            }
+        }
+        return $toPjTicket;
+    }
+
+    function saveAttachments($fileNames, $ticketId)
+    {
+        foreach ($fileNames as $fileName) {
+            if ($fileName != "") {
+                $newPj = new PjTicket();
+                $newPj->pj_ticket = $ticketId;
+                $newPj->pj_file = $fileName;
+                $newPj->pj_date = new \DateTime();
+                $newPj->pj_visibilite = 1;
+                $newPj->save();
+            }
+        }
+    }
+
+    public function post(FileRequest $request, $token)
     {
         if (!$token) {
             return $this->response->array($this->getResponse(1001, 'Token invalide')); // Token invalid
@@ -208,6 +250,7 @@ class DemandesController extends Controller
         if (!$user) {
             return $this->response->array($this->getResponse(1002, 'Session vide'));
         }
+
         $ticket = new Ticket();
         $ticket->titre = Request::input('titre');
         $ticket->description = Request::input('description');
@@ -215,6 +258,11 @@ class DemandesController extends Controller
         $ticket->user_id = Request::input('userId');
         $ticket->date_modification = new \DateTime();
         $ticket->save();
+
+        if ($paths = $this->sendFiles($request)) {
+            $this->saveAttachments($paths, $ticket->ticket_id);
+        }
+
         return $this->response->array($this->getResponse(200, 'OK'));
     }
 
