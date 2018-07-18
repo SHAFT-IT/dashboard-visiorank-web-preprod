@@ -198,6 +198,26 @@ class DemandesController extends Controller
         return $this->response->array($this->getResponse(100, 'Unknown'));
     }
 
+    public function post($token)
+    {
+        if (!$token) {
+            return $this->response->array($this->getResponse(1001, 'Token invalide')); // Token invalid
+        }
+
+        $user = $this->getUserByToken($token);
+        if (!$user) {
+            return $this->response->array($this->getResponse(1002, 'Session vide'));
+        }
+        $ticket = new Ticket();
+        $ticket->titre = Request::input('titre');
+        $ticket->description = Request::input('description');
+        $ticket->ticket_priorite_id = Request::input('priorityId');
+        $ticket->user_id = Request::input('userId');
+        $ticket->date_modification = new \DateTime();
+        $ticket->save();
+        return $this->response->array($this->getResponse(200, 'OK'));
+    }
+
     public function remove($token)
     {
         $user = $this->getUserByToken($token);
