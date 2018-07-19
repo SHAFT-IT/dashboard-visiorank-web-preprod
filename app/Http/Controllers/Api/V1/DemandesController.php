@@ -111,6 +111,24 @@ class DemandesController extends Controller
         return $this->response->array($this->getResponse(200, 'OK'));
     }
 
+    public function updatePriority($token)
+    {
+        if (!$token) {
+            return $this->response->array($this->getResponse(1001, 'Token invalide')); // Token invalid
+        }
+        $user = $this->getUserByToken($token);
+        if (!$user) {
+            return $this->response->array($this->getResponse(1002, 'Session vide'));
+        }
+        $ticketId = Request::input('ticketId');
+        $ticket = Ticket::find($ticketId);
+        if ($ticket) {
+            $ticket->ticket_priorite_id = Request::input('priorityId');
+            $ticket->save();
+        }
+        return $this->response->array($this->getResponse(200, 'OK'));
+    }
+
     function saveHistory($ticket, $ticketId, $statusId, $userId, $comment = "")
     {
         $ticket->ticket_last_status = $statusId;
