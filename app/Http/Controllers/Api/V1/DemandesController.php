@@ -257,7 +257,7 @@ class DemandesController extends Controller
         $ticket->ticket_priorite_id = Request::input('priorityId');
         $ticket->user_id = Request::input('userId');
         $ticket->type = Request::input('type');
-        $ticket->date_modification = new \DateTime();
+        $ticket->date_creation = new \DateTime();
         $ticket->save();
 
         if ($paths = $this->sendFiles($request)) {
