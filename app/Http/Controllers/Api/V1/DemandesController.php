@@ -256,6 +256,7 @@ class DemandesController extends Controller
         $ticket->description = Request::input('description');
         $ticket->ticket_priorite_id = Request::input('priorityId');
         $ticket->user_id = Request::input('userId');
+        $ticket->type = Request::input('type');
         $ticket->date_modification = new \DateTime();
         $ticket->save();
 
