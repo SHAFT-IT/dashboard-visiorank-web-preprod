@@ -77,4 +77,5 @@ app(Router::class)->version('v1', [], function (Router $api) {
     app(Router::class)->get('ws_find_demandes/{token}', 'App\Http\Controllers\Api\V1\DemandesController@filter');
     app(Router::class)->post('ws_update_priority/{token}', 'App\Http\Controllers\Api\V1\DemandesController@updatePriority');
     app(Router::class)->delete('ws_demandes/{token}', 'App\Http\Controllers\Api\V1\DemandesController@remove');
+    app(Router::class)->post('ws_demandes/attachment_remove/{token}', 'App\Http\Controllers\Api\V1\DemandesController@removeAttachment');
 });

@@ -57,10 +57,18 @@ class DemandesController extends Controller
     public function getById($token, $ticketId)
     {
         $user = $this->getUserByToken($token);
+
         if ($user) {
             $ticket = $this->queryItems()->where('ticket_id', $ticketId)->first();
             if ($ticket) {
                 $ticket->attachments = $this->getTicketAttachments($ticket->ticket_id);
+                if($user->type == 1) {
+                    $data = array(
+                        'users' => $this->response->array(User::where('type', '=', 0)->get())->original,
+                        'ticket' => $ticket
+                    );
+                    return json_encode($data);
+                }
                 return $this->response->array($ticket);
             }
             return $this->response->array($this->getResponse(1003, 'Ticket introuvable')); // No session
@@ -304,4 +312,31 @@ class DemandesController extends Controller
         return User::where('mobile_token', $token)->first();
     }
 
+    function removeAttachment($token)
+    {
+        if (!$token) {
+            return $this->getResponse(1001, 'Token invalide'); // Token invalid
+        }
+
+        $user = $this->getUserByToken($token);
+        if (!$user) {
+            return $this->getResponse(1002, 'Session vide');
+        }
+
+        $response = $this->getResponse(1003, 'file name not found');
+        $pj_ticket_filename = Request::input('filename');
+        if (isset($pj_ticket_filename) && $pj_ticket_filename != "") {
+            $pjToUpdate = PjTicket::where('pj_file', $pj_ticket_filename)->first();
+            if($pjToUpdate) {
+                $pjToUpdate->pj_date = new \DateTime();
+                $pjToUpdate->pj_visibilite = 0;
+                $saved = $pjToUpdate->save();
+                if ($saved) {
+                    $response = $this->getResponse(200, 'file visibility update success');
+                }
+            }
+        }
+        return $response;
+
+    }
 }
