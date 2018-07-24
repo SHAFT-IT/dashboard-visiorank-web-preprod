@@ -59,19 +59,29 @@ class DemandesController extends Controller
         $user = $this->getUserByToken($token);
 
         if ($user) {
-            $ticket = $this->queryItems()->where('ticket_id', $ticketId)->first();
-            if ($ticket) {
-                $ticket->attachments = $this->getTicketAttachments($ticket->ticket_id);
-                if($user->type == 1) {
-                    $data = array(
-                        'users' => $this->response->array(User::where('type', '=', 0)->get())->original,
-                        'ticket' => $ticket
-                    );
-                    return json_encode($data);
+            if($ticketId != 0) {
+                //for update demand
+                $ticket = $this->queryItems()->where('ticket_id', $ticketId)->first();
+                if ($ticket) {
+                    $ticket->attachments = $this->getTicketAttachments($ticket->ticket_id);
+                    if ($user->type == 1) {
+                        $data = array(
+                            'users' => $this->response->array(User::where('type', '=', 0)->get())->original,
+                            'ticket' => $ticket
+                        );
+                        return json_encode($data);
+                    }
+                    return $this->response->array($ticket);
                 }
-                return $this->response->array($ticket);
+                return $this->response->array($this->getResponse(1003, 'Ticket introuvable')); // No session
+            }else if($ticketId == 0){
+                //for adding demand
+                $data = array(
+                    'users' => $this->response->array(User::where('type', '=', 0)->get())->original
+                );
+                return json_encode($data);
             }
-            return $this->response->array($this->getResponse(1003, 'Ticket introuvable')); // No session
+
         }
         return $this->response->array($this->getResponse(1002, 'Session vide')); // No session
     }
