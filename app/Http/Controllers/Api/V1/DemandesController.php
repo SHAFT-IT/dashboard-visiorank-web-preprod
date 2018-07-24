@@ -60,6 +60,7 @@ class DemandesController extends Controller
         if ($user) {
             $ticket = $this->queryItems()->where('ticket_id', $ticketId)->first();
             if ($ticket) {
+                $ticket->attachments = $this->getTicketAttachments($ticket->ticket_id);
                 return $this->response->array($ticket);
             }
             return $this->response->array($this->getResponse(1003, 'Ticket introuvable')); // No session
@@ -225,13 +226,8 @@ class DemandesController extends Controller
 
     function getTicketAttachments($ticketId)
     {
-        $toPjTicket = PjTicket::where('pj_visibilite', '=', 1)
-            ->where(
-                function ($query) use ($ticketId) {
-                    $query->where('pj_tickets.pj_ticket', '=', $ticketId);
-                }
-            )
-            ->join('tickets', 'tickets.ticket_id', '=', 'pj_tickets.pj_ticket')
+        $toPjTicket = PjTicket::where('pj_ticket', $ticketId)
+            ->where('pj_visibilite', '=', 1)
             ->orderBy('pj_date', 'desc')
             ->get();
 
@@ -239,6 +235,7 @@ class DemandesController extends Controller
             $oPjTicket->icon = 'fa-file-o';
             if (isset($oPjTicket->pj_file) && $oPjTicket->pj_file != "") {
                 $oPjTicket->icon = $this->getIconByFileMimeType(mime_content_type(public_path() . "/uploads/" . $oPjTicket->pj_file));
+                $oPjTicket->pj_file = Request::getHttpHost() . "/public/uploads/" . $oPjTicket->pj_file;
             }
         }
         return $toPjTicket;
