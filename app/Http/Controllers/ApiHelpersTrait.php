@@ -92,11 +92,13 @@ trait ApiHelpersTrait
         $paths = [];
         $files = $request->file('uploads');
         if (!empty($files)) {
+            $i = 1;
             foreach ($files as $file) {
                 if ($file) {
-                    $filename = time() . '.' . $file->getClientOriginalExtension();
+                    $filename = time() . $i . '.' . $file->getClientOriginalExtension();
                     $file->move('uploads', $filename); // uploading file to given path
                     $paths[] = $filename;
+                    $i++;
                 }
             }
         }

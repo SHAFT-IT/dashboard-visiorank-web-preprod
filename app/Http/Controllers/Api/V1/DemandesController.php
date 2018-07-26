@@ -65,13 +65,18 @@ class DemandesController extends Controller
                 if ($ticket) {
                     $ticket->attachments = $this->getTicketAttachments($ticket->ticket_id);
                     if ($user->type == 1) {
-                        $data = array(
+                        $data_admin = array(
                             'users' => $this->response->array(User::where('type', '=', 0)->get())->original,
-                            'ticket' => $ticket
+                            'ticket' => $ticket,
+                            'histories' => $this->getTicketHistories($ticket->ticket_id)
                         );
-                        return json_encode($data);
+                        return json_encode($data_admin);
                     }
-                    return $this->response->array($ticket);
+                    $data = array(
+                        'ticket' => $ticket,
+                        'histories' => $this->getTicketHistories($ticket->ticket_id)
+                    );
+                    return json_encode($data);
                 }
                 return $this->response->array($this->getResponse(1003, 'Ticket introuvable')); // No session
             }else if($ticketId == 0){
@@ -257,6 +262,13 @@ class DemandesController extends Controller
             }
         }
         return $toPjTicket;
+    }
+
+    function getTicketHistories($ticketId){
+
+        $histories = HistoriqueTicket::where('historique_ticket', $ticketId)->get();
+        return $this->response->array($histories)->original;
+
     }
 
     function saveAttachments($fileNames, $ticketId)
