@@ -87,6 +87,41 @@ trait ApiHelpersTrait
         return 'fa-file-o';
     }
 
+    function getMobileIconByFileMimeType($mime_type)
+    {
+        // List of official MIME Types: http://www.iana.org/assignments/media-types/media-types.xhtml
+        $icon_classes = [
+            // Media
+            'image' => 'file-image',
+            'audio' => 'file-audio',
+            'video' => 'file-video',
+            // Documents
+            'application/pdf' => 'file-pdf',
+            'application/msword' => 'file-word',
+            'application/vnd.ms-word' => 'file-word',
+            'application/vnd.oasis.opendocument.text' => 'file-word',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml' => 'file-word',
+            'application/vnd.ms-excel' => 'fa-file-excel-o',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml' => 'file-excel',
+            'application/vnd.oasis.opendocument.spreadsheet' => 'file-excel',
+            'application/vnd.ms-powerpoint' => 'file-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml' => 'file-powerpoint',
+            'application/vnd.oasis.opendocument.presentation' => 'file-powerpoint',
+            'text/plain' => 'file-text',
+            'text/html' => 'file-code',
+            'application/json' => 'file-code',
+            // Archives
+            'application/gzip' => 'file-archive',
+            'application/zip' => 'file-archive',
+        ];
+        foreach ($icon_classes as $text => $icon) {
+            if (strpos($mime_type, $text) === 0) {
+                return $icon;
+            }
+        }
+        return 'file';
+    }
+
     public function sendFiles(Request $request)
     {
         $paths = [];
