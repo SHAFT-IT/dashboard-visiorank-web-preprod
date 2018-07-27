@@ -257,8 +257,9 @@ class DemandesController extends Controller
         foreach ($toPjTicket as $oPjTicket) {
             $oPjTicket->icon = 'fa-file-o';
             if (isset($oPjTicket->pj_file) && $oPjTicket->pj_file != "") {
-                $oPjTicket->icon = $this->getIconByFileMimeType(mime_content_type(public_path() . "/uploads/" . $oPjTicket->pj_file));
+                $oPjTicket->pj_icon = $this->getIconByFileMimeType(mime_content_type(public_path() . "/uploads/" . $oPjTicket->pj_file));
                 $oPjTicket->pj_file = Request::getHttpHost() . "/public/uploads/" . $oPjTicket->pj_file;
+                $oPjTicket->pj_type = mime_content_type(public_path() . "/uploads/" . $oPjTicket->pj_file);
             }
         }
         return $toPjTicket;
