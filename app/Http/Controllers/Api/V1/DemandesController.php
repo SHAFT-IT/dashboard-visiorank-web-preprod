@@ -268,7 +268,9 @@ class DemandesController extends Controller
 
     function getTicketHistories($ticketId){
 
-        $histories = HistoriqueTicket::where('historique_ticket', $ticketId)->get();
+        $histories = HistoriqueTicket::where('historique_ticket', $ticketId)
+            ->orderBy('historique_date', 'desc')
+            ->get();
         return $this->response->array($histories)->original;
 
     }
