@@ -92,27 +92,27 @@ trait ApiHelpersTrait
         // List of official MIME Types: http://www.iana.org/assignments/media-types/media-types.xhtml
         $icon_classes = [
             // Media
-            'image' => 'file-image',
-            'audio' => 'file-audio',
-            'video' => 'file-video',
+            'image' => 'file-image-o',
+            'audio' => 'file-audio-o',
+            'video' => 'file-video-o',
             // Documents
-            'application/pdf' => 'file-pdf',
-            'application/msword' => 'file-word',
-            'application/vnd.ms-word' => 'file-word',
-            'application/vnd.oasis.opendocument.text' => 'file-word',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml' => 'file-word',
+            'application/pdf' => 'file-pdf-o',
+            'application/msword' => 'file-word-o',
+            'application/vnd.ms-word' => 'file-word-o',
+            'application/vnd.oasis.opendocument.text' => 'file-word-o',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml' => 'file-word-o',
             'application/vnd.ms-excel' => 'fa-file-excel-o',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml' => 'file-excel',
-            'application/vnd.oasis.opendocument.spreadsheet' => 'file-excel',
-            'application/vnd.ms-powerpoint' => 'file-powerpoint',
-            'application/vnd.openxmlformats-officedocument.presentationml' => 'file-powerpoint',
-            'application/vnd.oasis.opendocument.presentation' => 'file-powerpoint',
-            'text/plain' => 'file-text',
-            'text/html' => 'file-code',
-            'application/json' => 'file-code',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml' => 'file-excel-o',
+            'application/vnd.oasis.opendocument.spreadsheet' => 'file-excel-o',
+            'application/vnd.ms-powerpoint' => 'file-powerpoint-o',
+            'application/vnd.openxmlformats-officedocument.presentationml' => 'file-powerpoint-o',
+            'application/vnd.oasis.opendocument.presentation' => 'file-powerpoint-o',
+            'text/plain' => 'file-text-o',
+            'text/html' => 'file-code-o',
+            'application/json' => 'file-code-o',
             // Archives
-            'application/gzip' => 'file-archive',
-            'application/zip' => 'file-archive',
+            'application/gzip' => 'file-archive-o',
+            'application/zip' => 'file-archive-o',
         ];
         foreach ($icon_classes as $text => $icon) {
             if (strpos($mime_type, $text) === 0) {
