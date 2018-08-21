@@ -37,7 +37,9 @@
                         <tr>
                             <td>Message</td>
                             <td>
-                                {!! $message['body'] !!}
+                                <iframe id="iframe" style="width: 100%; height: 500px; border: 0;overflow:visible;">
+                                    {!! $message['body'] !!}
+                                </iframe>
                             </td>
                         </tr>
                         @if(count($message['attachments']) > 0)
@@ -59,4 +61,10 @@
         @endif
         <!-- /.row -->
     </div>
+<script type="text/javascript">
+    var $iframe = $('#iframe');
+    $iframe.ready(function() {
+        $iframe.contents().find("body").append($iframe.html());
+    });
+</script>
 @stop
